@@ -1,5 +1,5 @@
 {
-  "name": "log-panel",
+  "name": "@guoxiao/log-panel",
   "version": "1.0.0",
   "description": "A draggable, minimizable log panel for embedded web applications (e.g., UE4)",
   "main": "dist/log-panel.js",
@@ -11,10 +11,22 @@
     "serve": "node serve.cjs",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "keywords": ["log", "console", "debug", "panel", "ue4", "embedded"],
-  "author": "",
+  "keywords": [
+    "log",
+    "console",
+    "debug",
+    "panel",
+    "ue4",
+    "embedded"
+  ],
+  "author": "guoxiao",
   "license": "ISC",
   "type": "module",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/guoxiao0521/log-panel.git"
+  },
+  "homepage": "https://github.com/guoxiao0521/log-panel",
   "devDependencies": {
     "@rollup/plugin-node-resolve": "^15.2.3",
     "@rollup/plugin-terser": "^0.4.4",
