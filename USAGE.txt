@@ -1,0 +1,94 @@
+Log Panel - 使用说明
+========================
+
+这是一个用于嵌入式 Web 应用(如 UE4)的日志面板库,可以在无法打开开发者工具的环境中查看 console 输出。
+
+快速开始
+--------
+
+1. 在 HTML 中引入库文件:
+   <script src="dist/log-panel.umd.js"></script>
+
+2. 初始化日志面板:
+   <script>
+     LogPanel.init({
+       position: 'bottom-right',  // 面板位置
+       width: 400,                // 面板宽度(px)
+       height: 300,               // 面板高度(px)
+       maxLogs: 1000             // 最大日志数量
+     });
+   </script>
+
+3. 正常使用 console:
+   console.log('普通日志');
+   console.warn('警告信息');
+   console.error('错误信息');
+
+配置选项
+--------
+
+position: 面板位置
+  - 'top-left': 左上角
+  - 'top-right': 右上角
+  - 'bottom-left': 左下角
+  - 'bottom-right': 右下角(默认)
+
+width: 面板宽度(默认: 400px)
+height: 面板高度(默认: 300px)
+maxLogs: 最大日志数量(默认: 1000)
+
+API 方法
+--------
+
+LogPanel.init(options)    - 初始化日志面板
+LogPanel.destroy()        - 销毁日志面板
+LogPanel.clear()          - 清空日志
+LogPanel.getLogs()        - 获取所有日志
+
+面板操作
+--------
+
+- 拖拽标题栏可以移动面板
+- 点击 "−" 按钮可以最小化面板
+- 点击垃圾桶图标可以清空日志
+- 面板会自动滚动到最新日志
+
+示例
+----
+
+查看 examples/ 目录下的示例文件:
+- basic-usage.html: 基本使用示例
+- ue4-usage.html: UE4 嵌入式应用示例
+
+测试页面
+--------
+
+运行 npm run build 构建后,打开 index.html 查看完整测试页面。
+
+注意事项
+--------
+
+1. 必须在构建后使用(运行 npm run build)
+2. 库会自动拦截 console 方法,原始 console 功能保持不变
+3. 面板使用 z-index: 9999,确保显示在最上层
+4. 支持对象和数组的格式化显示
+
+NPM 模块使用
+-----------
+
+// ES 模块
+import LogPanel from 'log-panel';
+LogPanel.init();
+
+// CommonJS
+const LogPanel = require('log-panel');
+LogPanel.init();
+
+浏览器直接引入
+-------------
+
+<script src="log-panel.umd.js"></script>
+<script>
+  LogPanel.init();
+</script>
+

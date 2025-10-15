@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Log Panel - Vue 2 使用示例</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: Arial, sans-serif;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      min-height: 100vh;
+      padding: 20px;
+    }
+
+    #app {
+      max-width: 800px;
+      margin: 0 auto;
+      background: white;
+      border-radius: 12px;
+      padding: 40px;
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+    }
+
+    h1 {
+      color: #333;
+      margin-bottom: 10px;
+    }
+
+    .subtitle {
+      color: #666;
+      margin-bottom: 30px;
+    }
+
+    .section {
+      margin-bottom: 30px;
+    }
+
+    .section h2 {
+      color: #42b983;
+      font-size: 20px;
+      margin-bottom: 15px;
+      border-bottom: 2px solid #42b983;
+      padding-bottom: 8px;
+    }
+
+    .button-group {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    button {
+      padding: 12px 24px;
+      font-size: 14px;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: all 0.3s;
+      font-weight: 500;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    }
+
+    button:active {
+      transform: translateY(0);
+    }
+
+    .btn-primary {
+      background: #42b983;
+      color: white;
+    }
+
+    .btn-log {
+      background: #4ec9b0;
+      color: white;
+    }
+
+    .btn-warn {
+      background: #dcdcaa;
+      color: #333;
+    }
+
+    .btn-error {
+      background: #f48771;
+      color: white;
+    }
+
+    .btn-secondary {
+      background: #95a5a6;
+      color: white;
+    }
+
+    .info-box {
+      background: #f0f9ff;
+      border-left: 4px solid #42b983;
+      padding: 15px;
+      border-radius: 4px;
+      margin-top: 20px;
+    }
+
+    .info-box h3 {
+      color: #42b983;
+      font-size: 16px;
+      margin-bottom: 8px;
+    }
+
+    .info-box pre {
+      background: #2d2d30;
+      color: #d4d4d4;
+      padding: 15px;
+      border-radius: 6px;
+      overflow-x: auto;
+      margin-top: 10px;
+      font-size: 13px;
+    }
+
+    .counter {
+      font-size: 24px;
+      font-weight: bold;
+      color: #42b983;
+      margin: 10px 0;
+    }
+
+    .user-card {
+      background: #f8f9fa;
+      padding: 15px;
+      border-radius: 8px;
+      margin: 10px 0;
+    }
+
+    .user-card p {
+      margin: 5px 0;
+      color: #666;
+    }
+  </style>
+</head>
+
+<body>
+  <div id="app">
+    <h1>📊 Log Panel - Vue 2 集成示例</h1>
+    <p class="subtitle">在 Vue 2 项目中使用日志面板</p>
+
+    <div class="section">
+      <h2>Vue 组件测试</h2>
+      <div class="button-group">
+        <button class="btn-primary" @click="handleClick">点击事件</button>
+        <button class="btn-primary" @click="incrementCounter">计数器 +1</button>
+        <button class="btn-log" @click="logData">输出数据</button>
+        <button class="btn-warn" @click="logWarning">输出警告</button>
+        <button class="btn-error" @click="logError">输出错误</button>
+      </div>
+      <div class="counter">计数器: {{ counter }}</div>
+    </div>
+
+    <div class="section">
+      <h2>生命周期测试</h2>
+      <div class="button-group">
+        <button class="btn-primary" @click="toggleComponent">{{ showUser ? '销毁组件' : '创建组件' }}</button>
+      </div>
+      <user-card v-if="showUser" :user="user"></user-card>
+    </div>
+
+    <div class="section">
+      <h2>异步操作测试</h2>
+      <div class="button-group">
+        <button class="btn-primary" @click="fetchData">模拟 API 请求</button>
+        <button class="btn-secondary" @click="simulateError">模拟请求错误</button>
+      </div>
+    </div>
+
+    <div class="info-box">
+      <h3>💡 Vue 2 集成方法</h3>
+      <pre>
+// 方法 1: 在 main.js 中全局初始化
+import Vue from 'vue';
+import LogPanel from 'log-panel';
+import App from './App.vue';
+
+// 初始化日志面板
+LogPanel.init({
+  position: 'bottom-right',
+  width: 450,
+  height: 350
+});
+
+new Vue({
+  render: h => h(App)
+}).$mount('#app');
+
+// 方法 2: 作为 Vue 插件
+const LogPanelPlugin = {
+  install(Vue, options) {
+    LogPanel.init(options);
+    Vue.prototype.$logPanel = LogPanel;
+  }
+};
+
+Vue.use(LogPanelPlugin, {
+  position: 'bottom-right',
+  width: 450,
+  height: 350
+});
+
+// 方法 3: 在特定组件中初始化
+import LogPanel from 'log-panel';
+
+export default {
+  mounted() {
+    LogPanel.init();
+  },
+  beforeDestroy() {
+    LogPanel.destroy();
+  }
+}
+      </pre>
+    </div>
+  </div>
+
+  <!-- Vue 2 -->
+  <script src="https://cdn.jsdelivr.net/npm/vue@2.7.14/dist/vue.js"></script>
+  
+  <!-- Log Panel -->
+  <script src="../dist/log-panel.umd.js"></script>
+
+  <script>
+    // 定义子组件
+    Vue.component('user-card', {
+      props: ['user'],
+      template: `
+        <div class="user-card">
+          <p><strong>姓名:</strong> {{ user.name }}</p>
+          <p><strong>年龄:</strong> {{ user.age }}</p>
+          <p><strong>职位:</strong> {{ user.role }}</p>
+        </div>
+      `,
+      created() {
+        console.log('UserCard 组件已创建', this.user);
+      },
+      mounted() {
+        console.log('UserCard 组件已挂载');
+      },
+      beforeDestroy() {
+        console.warn('UserCard 组件即将销毁');
+      }
+    });
+
+    // 创建 Vue 实例
+    new Vue({
+      el: '#app',
+      data: {
+        counter: 0,
+        showUser: false,
+        user: {
+          name: '张三',
+          age: 28,
+          role: '前端工程师'
+        }
+      },
+      created() {
+        console.log('Vue 应用已创建');
+      },
+      mounted() {
+        // 初始化 Log Panel
+        LogPanel.init({
+          position: 'bottom-right',
+          width: 450,
+          height: 350,
+          maxLogs: 500
+        });
+        console.log('✅ Log Panel 已初始化');
+        console.log('🎉 Vue 2 应用启动成功!');
+      },
+      methods: {
+        handleClick() {
+          console.log('按钮被点击了!');
+          console.log('当前时间:', new Date().toLocaleString());
+        },
+        
+        incrementCounter() {
+          this.counter++;
+          console.log(`计数器更新: ${this.counter}`);
+        },
+        
+        logData() {
+          const data = {
+            counter: this.counter,
+            user: this.user,
+            timestamp: Date.now()
+          };
+          console.log('当前应用数据:', data);
+        },
+        
+        logWarning() {
+          console.warn('⚠️ 这是一条警告消息');
+          console.warn('计数器值:', this.counter);
+        },
+        
+        logError() {
+          console.error('❌ 这是一条错误消息');
+          console.error('Error: 模拟的错误信息');
+        },
+        
+        toggleComponent() {
+          this.showUser = !this.showUser;
+          if (this.showUser) {
+            console.log('创建 UserCard 组件');
+          } else {
+            console.warn('销毁 UserCard 组件');
+          }
+        },
+        
+        async fetchData() {
+          console.log('开始请求数据...');
+          
+          // 模拟 API 请求
+          try {
+            await new Promise(resolve => setTimeout(resolve, 1500));
+            const response = {
+              status: 200,
+              data: {
+                id: 1,
+                name: '新用户',
+                email: 'user@example.com'
+              }
+            };
+            console.log('✅ 请求成功:', response);
+          } catch (error) {
+            console.error('❌ 请求失败:', error);
+          }
+        },
+        
+        async simulateError() {
+          console.log('模拟 API 请求错误...');
+          
+          try {
+            await new Promise((resolve, reject) => {
+              setTimeout(() => reject(new Error('Network Error')), 1000);
+            });
+          } catch (error) {
+            console.error('❌ 请求失败:', error.message);
+            console.error('错误详情:', {
+              message: error.message,
+              timestamp: new Date().toISOString()
+            });
+          }
+        }
+      },
+      watch: {
+        counter(newVal, oldVal) {
+          console.log(`计数器变化: ${oldVal} → ${newVal}`);
+        }
+      }
+    });
+  </script>
+</body>
+
+</html>
+
+

@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Log Panel - UE4 嵌入式使用示例</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: Arial, sans-serif;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .app-container {
+      background: white;
+      padding: 40px;
+      border-radius: 12px;
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+      max-width: 600px;
+      width: 90%;
+    }
+
+    h1 {
+      color: #333;
+      margin-bottom: 10px;
+    }
+
+    .subtitle {
+      color: #666;
+      margin-bottom: 30px;
+    }
+
+    .action-panel {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 15px;
+      margin-top: 20px;
+    }
+
+    button {
+      padding: 15px;
+      border: none;
+      border-radius: 8px;
+      font-size: 16px;
+      cursor: pointer;
+      transition: transform 0.2s;
+      font-weight: 500;
+    }
+
+    button:hover {
+      transform: translateY(-2px);
+    }
+
+    .btn-game-action {
+      background: #667eea;
+      color: white;
+    }
+
+    .info {
+      background: #e8f4fd;
+      padding: 15px;
+      border-radius: 8px;
+      margin-top: 20px;
+      border-left: 4px solid #667eea;
+    }
+  </style>
+</head>
+<body>
+  <div class="app-container">
+    <h1>🎮 游戏 UI 界面</h1>
+    <p class="subtitle">模拟 UE4 嵌入式 Web 应用</p>
+
+    <div class="action-panel">
+      <button class="btn-game-action" onclick="simulateGameAction('玩家移动')">玩家移动</button>
+      <button class="btn-game-action" onclick="simulateGameAction('发射武器')">发射武器</button>
+      <button class="btn-game-action" onclick="simulateGameAction('拾取物品')">拾取物品</button>
+      <button class="btn-game-action" onclick="simulateGameAction('保存游戏')">保存游戏</button>
+    </div>
+
+    <div class="info">
+      <strong>💡 提示:</strong> 此页面模拟 UE4 嵌入的 Web 应用场景。
+      由于无法打开开发者工具,所有日志将显示在右下角的浮动面板中。
+    </div>
+  </div>
+
+  <!-- 引入 Log Panel 库 -->
+  <script src="../dist/log-panel.umd.js"></script>
+
+  <script>
+    // 自动初始化日志面板
+    LogPanel.init({
+      position: 'bottom-right',
+      width: 450,
+      height: 350,
+      maxLogs: 500
+    });
+
+    console.log('🎮 游戏 UI 已加载');
+    console.log('系统版本: v1.0.0');
+    console.log('运行环境: UE4 嵌入式浏览器');
+
+    // 模拟游戏操作
+    function simulateGameAction(action) {
+      console.log(`执行操作: ${action}`);
+      
+      // 模拟不同类型的日志
+      switch(action) {
+        case '玩家移动':
+          console.log('玩家位置: X=123.4, Y=567.8, Z=90.1');
+          break;
+        case '发射武器':
+          console.warn('弹药剩余: 15/100');
+          console.log('武器冷却: 2.5秒');
+          break;
+        case '拾取物品':
+          const item = { name: '生命药水', quantity: 1, rarity: 'rare' };
+          console.log('拾取物品:', item);
+          break;
+        case '保存游戏':
+          console.log('正在保存游戏进度...');
+          setTimeout(() => {
+            console.log('✅ 游戏保存成功!');
+          }, 1000);
+          break;
+      }
+    }
+
+    // 模拟定期的系统消息
+    let messageCount = 0;
+    setInterval(() => {
+      messageCount++;
+      if (messageCount % 5 === 0) {
+        console.log(`系统心跳检测 #${messageCount}`);
+      }
+    }, 10000);
+
+    // 模拟偶尔的警告
+    setTimeout(() => {
+      console.warn('⚠️ 网络延迟较高: 150ms');
+    }, 15000);
+  </script>
+</body>
+</html>
+

@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Log Panel - 基本使用示例</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 20px;
+      background: #f5f5f5;
+    }
+
+    .demo-section {
+      background: white;
+      padding: 20px;
+      margin: 20px 0;
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    h1 {
+      color: #333;
+    }
+
+    h2 {
+      color: #666;
+      margin-top: 0;
+    }
+
+    button {
+      padding: 10px 20px;
+      margin: 5px;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 14px;
+    }
+
+    .btn-primary {
+      background: #007bff;
+      color: white;
+    }
+
+    .btn-success {
+      background: #28a745;
+      color: white;
+    }
+
+    .btn-warning {
+      background: #ffc107;
+      color: #333;
+    }
+
+    .btn-danger {
+      background: #dc3545;
+      color: white;
+    }
+  </style>
+</head>
+
+<body>
+  <script type="module">
+    import LogPanel from '../dist/log-panel.esm.js';
+
+    function initPanel() {
+      LogPanel.init({
+        position: 'bottom-right',
+        width: 400,
+        height: 300,
+        id: 'log-panel'
+      });
+
+      LogPanel.init({
+        position: 'bottom-left',
+        width: 400,
+        height: 300,
+        id: 'log-panel-2'
+      });
+      console.log('✅ 日志面板已初始化');
+    }
+    
+
+    function testObject() {
+      const data = {
+        user: '张三',
+        age: 25,
+        hobbies: ['编程', '游戏', '音乐']
+      };
+      console.log('用户数据:', data);
+    }
+
+    // 自动初始化
+    window.addEventListener('DOMContentLoaded', () => {
+      initPanel();
+      document.getElementById('testObject').addEventListener('click', testObject);
+    });
+  </script>
+
+  <h1>Log Panel - 基本使用示例</h1>
+
+  <div class="demo-section">
+    <h2>快速开始</h2>
+    <p>点击下面的按钮初始化日志面板:</p>
+    <button class="btn-primary" onclick="initPanel()">初始化日志面板</button>
+  </div>
+
+  <div class="demo-section">
+    <h2>测试日志输出</h2>
+    <button class="btn-success" onclick="console.log('这是一条普通日志')">普通日志</button>
+    <button class="btn-warning" onclick="console.warn('这是一条警告')">警告日志</button>
+    <button class="btn-danger" onclick="console.error('这是一条错误')">错误日志</button>
+    <button class="btn-primary" id="testObject">对象日志</button>
+  </div>
+</body>
+
+</html>
