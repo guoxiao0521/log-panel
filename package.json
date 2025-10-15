@@ -1,7 +1,7 @@
 {
   "name": "@guoxiao/log-panel",
   "version": "1.0.0",
-  "description": "A draggable, minimizable log panel for embedded web applications (e.g., UE4)",
+  "description": "在无法使用开发者工具调试的时候 更方便的查看打印日志",
   "main": "dist/log-panel.js",
   "module": "dist/log-panel.esm.js",
   "browser": "dist/log-panel.umd.js",
