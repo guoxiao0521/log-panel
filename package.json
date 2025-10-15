@@ -1,6 +1,6 @@
 {
   "name": "@guoxiao/log-panel",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "A draggable, minimizable log panel for viewing console logs when developer tools are unavailable",
   "main": "dist/log-panel.js",
   "module": "dist/log-panel.esm.js",
